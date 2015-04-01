@@ -49,7 +49,12 @@ var rcSubmitDirective = {
         this.setFormController = function(controller) {          
           formController = controller;
         };
- 
+
+        this.reset = function() {
+          formController.$setPristine();
+          this.attempted = false;
+        };
+
         this.needsAttention = function (fieldModelController) {
           if (!formController) return false;
  
@@ -72,6 +77,9 @@ var rcSubmitDirective = {
           angular.forEach(submitCompleteHandlers, function (handler) {
             handler({ 'success': success, 'data': data });
           });
+
+          formController.$setPristine();
+          this.attempted = false;
         };
       }],
       compile: function(cElement, cAttributes, transclude) {
